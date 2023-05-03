@@ -17,6 +17,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const Drawer(),
       floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
       floatingActionButton: Container(
         height: 90.0,
@@ -46,7 +47,12 @@ class _HomeState extends State<Home> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const HalfMoonAppBar(),
+                  Builder(
+                    builder: (BuildContext context) => HalfMoonAppBar(
+                      onMenuTap: () => Scaffold.of(context).openDrawer(),
+                      onProfileTap: () {},
+                    ),
+                  ),
                   const Padding(
                     padding: Constants.paddingSym,
                     child: Text(
@@ -102,7 +108,7 @@ class _HomeState extends State<Home> {
                                     width: 40.0,
                                   ),
                                   SvgPicture.asset(
-                                    "assets/icons/notification.svg",
+                                    Strings.images['notification']!,
                                     height: 24.0,
                                     width: 24.0,
                                     colorFilter: const ColorFilter.mode(
@@ -227,8 +233,9 @@ class _HomeState extends State<Home> {
                         // padding: EdgeInsets.all(value),
                         itemBuilder: (context, index) => Container(
                           decoration: BoxDecoration(
-                              color: MyColors.primary,
-                              borderRadius: BorderRadius.circular(20.0)),
+                            color: MyColors.primary,
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
                           width: 140.0,
                           height: 100.0,
                           padding: const EdgeInsets.all(10.0),
@@ -252,15 +259,21 @@ class _HomeState extends State<Home> {
                                 height: 40.0,
                                 width: 120.0,
                                 decoration: BoxDecoration(
-                                  color: MyColors.onSurface,
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
-                                alignment: Alignment.center,
-                                child: const Text(
-                                  "Buy",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: MyColors.onPrimary),
+                                child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            MyColors.onSurface),
+                                  ),
+                                  onPressed: () {},
+                                  child: const Text(
+                                    "Buy",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: MyColors.onPrimary),
+                                  ),
                                 ),
                               )
                             ],

@@ -22,4 +22,5 @@ mixin Constants {
     fontWeight: FontWeight.bold,
     fontSize: 40.0,
   );
+
 }

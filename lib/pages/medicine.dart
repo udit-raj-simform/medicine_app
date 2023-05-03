@@ -1,5 +1,6 @@
 import 'package:medicine_app/pages/reminder.dart';
 import 'package:medicine_app/utils/exports.dart';
+import 'package:medicine_app/utils/functions.dart';
 
 class MedicinePage extends StatefulWidget {
   const MedicinePage({Key? key}) : super(key: key);
@@ -9,11 +10,14 @@ class MedicinePage extends StatefulWidget {
 }
 
 class _MedicinePageState extends State<MedicinePage> {
-  int _selectedIndex = 5;
+  int _selectedIndex = 0;
+  Map<DateTime, String> reminderDays = <DateTime, String>{};
 
   updateIndex(index) {
     setState(() {
       _selectedIndex = index;
+      // debugPrint(Functions.addDatesToList(date, day, reminderDays).toString());
+      // debugPrint(reminderDays.toString());
     });
   }
 
@@ -23,6 +27,14 @@ class _MedicinePageState extends State<MedicinePage> {
     } else {
       return false;
     }
+  }
+
+  addDatesToMap() {}
+
+  @override
+  void initState() {
+    reminderDays.addAll(Functions.reminderDaysList());
+    super.initState();
   }
 
   @override
@@ -62,7 +74,7 @@ class _MedicinePageState extends State<MedicinePage> {
             width: Constants.deviceWidth,
             height: 200.0,
             child: SvgPicture.asset(
-              "assets/images/medicine.svg",
+              "assets/images/medicine_on_primary.svg",
               height: 24.0,
               width: 24.0,
             ),
@@ -92,7 +104,7 @@ class _MedicinePageState extends State<MedicinePage> {
             height: 80.0,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 10,
+              itemCount: reminderDays.length,
               shrinkWrap: true,
               itemBuilder: (context, index) => Focus(
                 autofocus: isSelected(index),
@@ -104,7 +116,10 @@ class _MedicinePageState extends State<MedicinePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ReminderPage(),
+                        builder: (context) => ReminderPage(
+                          day:
+                              reminderDays.keys.elementAt(index).day.toString(),
+                        ),
                       ),
                     );
                   },
@@ -120,14 +135,14 @@ class _MedicinePageState extends State<MedicinePage> {
                     margin: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [
+                      children: [
                         Text(
-                          "Wed",
-                          style: TextStyle(color: MyColors.onSurface),
+                          reminderDays.values.elementAt(index),
+                          style: const TextStyle(color: MyColors.onSurface),
                         ),
                         Text(
-                          "18",
-                          style: TextStyle(color: MyColors.onSurface),
+                          reminderDays.keys.elementAt(index).day.toString(),
+                          style: const TextStyle(color: MyColors.onSurface),
                         ),
                       ],
                     ),

@@ -1,7 +1,10 @@
 import 'package:medicine_app/utils/exports.dart';
 
 class HalfMoonAppBar extends StatelessWidget {
-  const HalfMoonAppBar({Key? key}) : super(key: key);
+  const HalfMoonAppBar({Key? key, this.onMenuTap, this.onProfileTap})
+      : super(key: key);
+  final void Function()? onMenuTap;
+  final void Function()? onProfileTap;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class HalfMoonAppBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              MyIcons().profileMenuIcon(),
+              MyIcons().profileMenuIcon(onProfileTap),
               const SizedBox(
                 width: 25.0,
               )
@@ -46,7 +49,7 @@ class HalfMoonAppBar extends StatelessWidget {
               ),
               clipBehavior: Clip.antiAlias,
               alignment: Alignment.bottomRight,
-              child: MyIcons().menuIcon(() {}),
+              child: MyIcons().menuIcon(onMenuTap),
             ),
           ),
         ),

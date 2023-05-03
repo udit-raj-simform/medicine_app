@@ -14,7 +14,9 @@ class MyApp extends StatelessWidget {
       // debugShowMaterialGrid: true,
       title: "Medicine App",
       home: const Home(),
-      theme: ThemeData.light(useMaterial3: true),
+      theme: ThemeData.light(useMaterial3: true).copyWith(
+        unselectedWidgetColor: MyColors.primary,
+      ),
       themeMode: ThemeMode.light,
     );
   }
