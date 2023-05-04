@@ -1,3 +1,5 @@
+import 'package:medicine_app/utils/exports.dart';
+
 mixin Functions {
   // Reminder List on Screen 2 has logic here (List of days and weekdays)
 
@@ -8,6 +10,16 @@ mixin Functions {
           (index) =>
           DateTime(dateTime.year, dateTime.month, dateTime.day + index,
               dateTime.hour, dateTime.minute, dateTime.second));
+
+  static List<String> weekDays = <String>[
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
+    "Sun"
+  ];
 
   static String returnWeekDay(int weekDay) {
     if (weekDay == 0) {
@@ -52,6 +64,35 @@ mixin Functions {
   // Activities on Screen 2 has logic here (List of activities on a particular day)
   int activities = 0;
 
-  Map<DateTime, Map<String, dynamic>> mapOfActivities = <DateTime,
-      Map<String, dynamic>>{};
+  Map<DateTime, Map<String, dynamic>> mapOfActivities =
+  <DateTime, Map<String, dynamic>>{};
+
+
+  //! Other Functions
+  // Snack bar
+  static showSnackBar(BuildContext context, String title) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          title,
+          style: const TextStyle(fontSize: 21.0),
+        ),
+        action: SnackBarAction(
+          label: 'Update',
+          onPressed: () {
+            // debugPrint(widget.day);
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) =>
+            //         ReminderPage(day: ??),
+            //   ),
+            // );
+          },
+        ),
+        backgroundColor:
+        MyColors.darkBackground.withOpacity(0.7),
+      ),
+    );
+  }
 }

@@ -1,7 +1,4 @@
-import 'package:intl/intl.dart';
 import 'package:medicine_app/utils/exports.dart';
-import 'package:medicine_app/utils/functions.dart';
-import 'package:medicine_app/widgets/custom/drop_down_tile/drop_down_tile.dart';
 
 class ReminderPage extends StatefulWidget {
   const ReminderPage({Key? key, required this.day}) : super(key: key);
@@ -14,17 +11,7 @@ class ReminderPage extends StatefulWidget {
 class _ReminderPageState extends State<ReminderPage> {
   bool _switchValue = true;
 
-  // int _selectedIndex = 0;
-  List<String> weekDays = <String>[
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-    "Sat",
-    "Sun"
-  ];
-  late final List<PopupMenuItem> items;
+  late final List items;
   List<bool> selected = List.generate(7, (index) => false);
 
   updateIndex(index) {
@@ -47,14 +34,8 @@ class _ReminderPageState extends State<ReminderPage> {
 
   @override
   void initState() {
-    items = List<PopupMenuItem>.generate(
-      32,
-      (index) => PopupMenuItem(
-        child: Text(
-          DateFormat('E, d MMM').format(Functions.dateRange[index]).toString(),
-        ),
-      ),
-    );
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    populateItems();
     selected[1] = true;
     super.initState();
   }
@@ -64,36 +45,7 @@ class _ReminderPageState extends State<ReminderPage> {
     return Scaffold(
       backgroundColor: MyColors.onSurface,
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        shadowColor: Colors.transparent,
-        surfaceTintColor: Colors.transparent,
-        leadingWidth: 100.0,
-        leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              SizedBox(
-                width: 25.0,
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: MyColors.darkBackground,
-                  size: 14.0,
-                ),
-              ),
-              SizedBox(
-                width: 34.0,
-                child: Text(
-                  "Back",
-                  style: TextStyle(color: MyColors.darkBackground),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      appBar: TransParentAppBar(leadingTitle: Strings.labels['back']!),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -101,7 +53,7 @@ class _ReminderPageState extends State<ReminderPage> {
               width: Constants.deviceWidth,
               height: 300.0,
               child: Image.asset(
-                "assets/images/screen_3_header.png",
+                Strings.images['sc3_header']!,
                 fit: BoxFit.cover,
               ),
             ),
@@ -120,26 +72,24 @@ class _ReminderPageState extends State<ReminderPage> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       DropDownTile(
-                        title: "Dose",
+                        title: Strings.dropDownLabels[0],
                         subTitle: "1,25",
                         imageData: Strings.images['injection']!,
-                        items: const <PopupMenuItem>[
-                          PopupMenuItem(child: Text("1,25")),
-                          PopupMenuItem(child: Text("1,25")),
-                          PopupMenuItem(child: Text("1,25")),
-                          PopupMenuItem(child: Text("1,25")),
+                        items: [
+                          ...List.generate(
+                              500, (index) => (index + 1).toString())
                         ],
                       ),
                       const SizedBox(
                         width: 15.0,
                       ),
                       DropDownTile(
-                        title: 'View',
+                        title: Strings.dropDownLabels[1],
                         subTitle: 'Tablet',
                         imageData: Strings.images['eye']!,
-                        items: const <PopupMenuItem>[
-                          PopupMenuItem(child: Text("Tablet")),
-                          PopupMenuItem(child: Text("mg")),
+                        items: const [
+                          "Tablet",
+                          "mg",
                         ],
                       ),
                     ],
@@ -148,16 +98,16 @@ class _ReminderPageState extends State<ReminderPage> {
                     height: 20.0,
                   ),
                   DropDownTile(
-                    title: 'How to use',
+                    title: Strings.dropDownLabels[2],
                     subTitle: 'Before eat',
                     imageData: Strings.images['hand']!,
-                    items: const <PopupMenuItem>[
-                      PopupMenuItem(child: Text("Before breakfast")),
-                      PopupMenuItem(child: Text("After breakfast")),
-                      PopupMenuItem(child: Text("Before lunch")),
-                      PopupMenuItem(child: Text("After lunch")),
-                      PopupMenuItem(child: Text("Before dinner")),
-                      PopupMenuItem(child: Text("After dinner")),
+                    items: const [
+                      "Before breakfast",
+                      "After breakfast",
+                      "Before lunch",
+                      "After lunch",
+                      "Before dinner",
+                      "After dinner",
                     ],
                   ),
                   const SizedBox(
@@ -168,7 +118,7 @@ class _ReminderPageState extends State<ReminderPage> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       DropDownTile(
-                        title: "Begin",
+                        title: Strings.dropDownLabels[3],
                         subTitle:
                             "${DateFormat("MMM").format(Functions.dateTime)}, ${widget.day}",
                         imageData: Strings.images['calender']!,
@@ -178,8 +128,9 @@ class _ReminderPageState extends State<ReminderPage> {
                         width: 15.0,
                       ),
                       DropDownTile(
-                        title: 'Finish',
-                        subTitle: 'Jan, 8',
+                        title: Strings.dropDownLabels[4],
+                        subTitle:
+                            "${DateFormat("MMM").format(Functions.dateTime)}, ${widget.day}",
                         imageData: Strings.images['calender']!,
                         items: items,
                       ),
@@ -191,14 +142,7 @@ class _ReminderPageState extends State<ReminderPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        "Reminders",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25.0,
-                          color: MyColors.textPrimary,
-                        ),
-                      ),
+                      HeaderText(title: Strings.labels['sc3_header']!),
                       Transform.scale(
                         scale: 1.4,
                         child: Switch(
@@ -227,95 +171,29 @@ class _ReminderPageState extends State<ReminderPage> {
                   SizedBox(
                     height: 80.0,
                     child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: weekDays.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => Focus(
-                        autofocus: isSelected(index),
-                        child: GestureDetector(
-                          onTap: () => updateIndex(index),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: isSelected(index)
-                                    ? MyColors.onSurface
-                                    : MyColors.primary,
-                                borderRadius: BorderRadius.circular(20.0),
-                                border: Border.all(
-                                  color: isSelected(index)
-                                      ? MyColors.onPrimary
-                                      : MyColors.primary,
-                                )),
-                            width: 70.0,
-                            height: 80.0,
-                            padding: const EdgeInsets.all(10.0),
-                            margin:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  weekDays[index],
-                                  style: TextStyle(
-                                      color: isSelected(index)
-                                          ? MyColors.onPrimary
-                                          : MyColors.textPrimary,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12.0),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50.0),
-                                    color: isSelected(index)
-                                        ? MyColors.onPrimary
-                                        : MyColors.onSurface,
-                                  ),
-                                  height: 25.0,
-                                  width: 25.0,
-                                  alignment: Alignment.center,
-                                  child: Icon(
-                                    Icons.check,
-                                    color: isSelected(index)
-                                        ? MyColors.onSurface
-                                        : MyColors.primary,
-                                    size: 18.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: Functions.weekDays.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) => CheckBoxTile(
+                              index: index,
+                              isSelected: isSelected,
+                              updateIndex: updateIndex,
+                              title: Functions.weekDays[index],
+                            )),
                   ),
                   const SizedBox(
                     height: 25.0,
                   ),
-                  SizedBox(
-                    width: Constants.deviceWidth,
-                    height: 50.0,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                          MyColors.onPrimary,
-                        ),
-                        overlayColor: MaterialStateProperty.all<Color>(
-                          MyColors.onCardColor2,
-                        ),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                        ),
-                      ),
-                      child: const Text(
-                        "Save Changes",
-                        style: TextStyle(color: MyColors.onSurface),
-                      ),
-                    ),
+                  ElevatedButtonFullWidth(
+                    title: Strings.labels['save']!,
+                    onPressed: () {
+                      Functions.showSnackBar(
+                          context, Strings.labels['reminder']!);
+                      Navigator.pop(context);
+                    },
                   ),
                   const SizedBox(
-                    height: 20.0,
+                    height: 30.0,
                   ),
                 ],
               ),
@@ -323,6 +201,14 @@ class _ReminderPageState extends State<ReminderPage> {
           ],
         ),
       ),
+    );
+  }
+
+  populateItems() {
+    items = List.generate(
+      32,
+      (index) =>
+          DateFormat('MMM, d').format(Functions.dateRange[index]).toString(),
     );
   }
 }

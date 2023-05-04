@@ -2,6 +2,10 @@ import 'package:medicine_app/utils/exports.dart';
 
 void main() {
   runApp(const MyApp());
+  // debugPrint(
+  //     "Size: ${Constants.deviceHeight.toString()}: ${Constants.deviceWidth.toString()}");
+
+  // 852.0: 393.0
 }
 
 class MyApp extends StatelessWidget {

@@ -1,16 +1,30 @@
 import 'package:medicine_app/utils/exports.dart';
 
-class DropDownTile extends StatelessWidget {
-  const DropDownTile({Key? key,
-    required this.title,
-    required this.subTitle,
-    required this.imageData,
-    required this.items})
+class DropDownTile extends StatefulWidget {
+  const DropDownTile(
+      {Key? key,
+      required this.title,
+      required this.subTitle,
+      required this.imageData,
+      required this.items})
       : super(key: key);
   final String title;
   final String subTitle;
   final String imageData;
-  final List<PopupMenuEntry> items;
+  final List? items;
+
+  @override
+  State<DropDownTile> createState() => _DropDownTileState();
+}
+
+class _DropDownTileState extends State<DropDownTile> {
+  String? selectedValue;
+
+  @override
+  void initState() {
+    // selectedValue = widget.items![0];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +33,7 @@ class DropDownTile extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: MyColors.onSurface,
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(22.0),
           border: Border.all(
             color: MyColors.textSub.withOpacity(0.5),
           ),
@@ -29,55 +43,60 @@ class DropDownTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.max,
           children: [
-            const SizedBox(
-              width: 15.0,
-            ),
-            SizedBox(
-              height: 24.0,
-              width: 24.0,
-              child: Image.asset(imageData),
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 5),
+              child: Image.asset(
+                widget.imageData,
+                height: 24.0,
+                width: 24.0,
+              ),
             ),
             VerticalDivider(
               color: MyColors.textSub.withOpacity(0.5),
               thickness: 1.0,
-              indent: 10.0,
-              endIndent: 10.0,
-              width: 20.0,
+              indent: 15.0,
+              endIndent: 15.0,
             ),
-            SizedBox(
-              height: 70.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      color: MyColors.textPrimary.withOpacity(0.6),
-                      fontSize: 12.0,
-                    ),
-                  ),
-                  Text(
-                    subTitle,
-                    style: const TextStyle(
-                      color: MyColors.textPrimary,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ],
+            const SizedBox(
+              width: 10.0,
+            ),
+            Expanded(
+              child: DropdownButtonFormField(
+                isExpanded: true,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  labelText: widget.title,
+                ),
+                icon: const Icon(
+                  Icons.keyboard_arrow_down_outlined,
+                  color: MyColors.textSub,
+                ),
+                hint: Text(
+                  widget.subTitle,
+                  style: const TextStyle(color: MyColors.textPrimary),
+                ),
+                value: selectedValue,
+                items: widget.items
+                    ?.map(
+                      (e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(
+                          e.toString(),
+                          style: const TextStyle(fontSize: 15.0),
+                        ),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedValue = value.toString();
+                  });
+                },
               ),
             ),
-            const Expanded(
-              child: SizedBox(),
+            const SizedBox(
+              width: 10,
             ),
-            PopupMenuButton(
-                icon: Icon(
-                  Icons.keyboard_arrow_down_rounded,
-                  color: MyColors.textSub.withOpacity(0.9),
-                  size: 25.0,
-                ),
-                itemBuilder: (context) => items),
           ],
         ),
       ),

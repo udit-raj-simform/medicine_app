@@ -1,6 +1,4 @@
-import 'package:medicine_app/pages/reminder.dart';
 import 'package:medicine_app/utils/exports.dart';
-import 'package:medicine_app/utils/functions.dart';
 
 class MedicinePage extends StatefulWidget {
   const MedicinePage({Key? key}) : super(key: key);
@@ -16,8 +14,6 @@ class _MedicinePageState extends State<MedicinePage> {
   updateIndex(index) {
     setState(() {
       _selectedIndex = index;
-      // debugPrint(Functions.addDatesToList(date, day, reminderDays).toString());
-      // debugPrint(reminderDays.toString());
     });
   }
 
@@ -33,6 +29,7 @@ class _MedicinePageState extends State<MedicinePage> {
 
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     reminderDays.addAll(Functions.reminderDaysList());
     super.initState();
   }
@@ -41,225 +38,142 @@ class _MedicinePageState extends State<MedicinePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyColors.darkBackground,
-      appBar: AppBar(
-        backgroundColor: MyColors.darkBackground,
-        leadingWidth: 100.0,
-        leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              SizedBox(
-                width: 25.0,
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: MyColors.surface,
-                  size: 14.0,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: Stack(
+          children: [
+            TransParentAppBar(
+              leadingTitle: Strings.labels['back']!,
+              color: MyColors.onSurface,
+            ),
+            Positioned(
+              top: -10.0,
+              left: 0.0,
+              child: RotatedBox(
+                quarterTurns: 1,
+                child: Image.asset(
+                  Strings.plantsImages[2]!,
+                  height: 150.0,
+                  width: 80.0,
                 ),
               ),
-              SizedBox(
-                width: 34.0,
-                child: Text(
-                  "Back",
-                  style: TextStyle(color: MyColors.surface),
-                ),
-              ),
-            ],
-          ),
+            )
+          ],
         ),
       ),
-      body: Column(
+      body: Stack(
         children: [
-          SizedBox(
-            width: Constants.deviceWidth,
-            height: 200.0,
-            child: SvgPicture.asset(
-              "assets/images/medicine_on_primary.svg",
-              height: 24.0,
-              width: 24.0,
-            ),
-          ),
-          const SizedBox(
-            height: 35.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: Row(
-              children: const [
-                Text(
-                  "Reminders",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25.0,
-                    color: MyColors.onSurface,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 20.0,
-          ),
-          SizedBox(
-            height: 80.0,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: reminderDays.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) => Focus(
-                autofocus: isSelected(index),
-                child: GestureDetector(
-                  onTap: () {
-                    updateIndex(index);
-                  },
-                  onDoubleTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ReminderPage(
-                          day:
-                              reminderDays.keys.elementAt(index).day.toString(),
-                        ),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: isSelected(index)
-                            ? MyColors.onPrimary
-                            : MyColors.darkPrimary,
-                        borderRadius: BorderRadius.circular(20.0)),
-                    width: 60.0,
-                    height: 70.0,
-                    padding: const EdgeInsets.all(10.0),
-                    margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          reminderDays.values.elementAt(index),
-                          style: const TextStyle(color: MyColors.onSurface),
-                        ),
-                        Text(
-                          reminderDays.keys.elementAt(index).day.toString(),
-                          style: const TextStyle(color: MyColors.onSurface),
-                        ),
-                      ],
-                    ),
-                  ),
+          Column(
+            children: [
+              SizedBox(
+                width: Constants.deviceWidth,
+                height: 200.0,
+                child: SvgPicture.asset(
+                  Strings.images['sc2_header']!,
+                  height: 24.0,
+                  width: 24.0,
                 ),
               ),
-            ),
-          ),
-          const SizedBox(
-            height: 35.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: Row(
-              children: const [
-                Text(
-                  "Today Activities",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25.0,
-                    color: MyColors.onSurface,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 20.0,
-          ),
-          Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: 10,
-              shrinkWrap: true,
-              // padding: EdgeInsets.all(value),
-              itemBuilder: (context, index) => Container(
-                decoration: BoxDecoration(
-                  color: (index % 2 == 0)
-                      ? MyColors.cardColor1
-                      : MyColors.cardColor2,
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                margin: const EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 25.0),
-                width: Constants.deviceWidth,
-                height: 110.0,
+              const SizedBox(
+                height: 35.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
                   children: [
-                    const SizedBox(
-                      width: 20.0,
-                    ),
-                    SizedBox(
-                      height: 70.0,
-                      width: 70.0,
-                      child: Image.asset(Strings
-                          .images[(index % 2 == 0) ? 'pill1' : 'pill2']!),
-                    ),
-                    const SizedBox(
-                      width: 18.0,
-                    ),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            Strings.medicines[index],
-                            style: TextStyle(
-                                color: (index % 2 == 0)
-                                    ? MyColors.onCardColor1
-                                    : MyColors.onCardColor2,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          const Text(
-                            "After lunch",
-                            style: TextStyle(
-                                color: MyColors.darkBackground, fontSize: 12.0),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: MyColors.onSurface,
-                          borderRadius: BorderRadius.circular(20.0)),
-                      width: 60.0,
-                      height: 70.0,
-                      padding: const EdgeInsets.all(10.0),
-                      margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            (index % 2 == 0) ? "10" : "2",
-                            style: const TextStyle(
-                              color: MyColors.darkBackground,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            (index % 2 == 0) ? "mg" : "Tablet",
-                            style: const TextStyle(
-                                color: MyColors.darkBackground, fontSize: 12.0),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10.0,
+                    HeaderText(
+                      title: Strings.labels['sc2_header_1']!,
+                      color: MyColors.onSurface,
                     ),
                   ],
                 ),
               ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              SizedBox(
+                height: 80.0,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: reminderDays.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) => Focus(
+                    autofocus: isSelected(index),
+                    child: GestureDetector(
+                      onTap: () => updateIndex(index),
+                      onDoubleTap: () => addReminder(index),
+                      child: DateTile(
+                        index: index,
+                        isSelected: isSelected,
+                        reminderDays: reminderDays,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 35.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Row(
+                  children: [
+                    HeaderText(
+                      title: Strings.labels['sc2_header_2']!,
+                      color: MyColors.onSurface,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: 10,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) => ActivityTile(index: index),
+                ),
+              ),
+            ],
+          ),
+          Positioned(
+            top: 90.0,
+            right: 0.0,
+            child: Transform.scale(
+              scale: 0.7,
+              child: Image.asset(
+                Strings.plantsImages[0]!,
+                height: 150.0,
+                width: 80.0,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 120.0,
+            right: -95.0,
+            child: Transform(
+              transform: Matrix4.rotationY(280.0),
+              child: Image.asset(
+                Strings.plantsImages[1]!,
+                height: 150.0,
+                width: 80.0,
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  addReminder(int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ReminderPage(
+          day: reminderDays.keys.elementAt(index).day.toString(),
+        ),
       ),
     );
   }
