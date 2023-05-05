@@ -74,11 +74,17 @@ class _ReminderPageState extends State<ReminderPage> {
                       DropDownTile(
                         title: Strings.dropDownLabels[0],
                         subTitle: "1,25",
-                        imageData: Strings.images['injection']!,
                         items: [
                           ...List.generate(
                               500, (index) => (index + 1).toString())
                         ],
+                        child: SvgPicture.asset(
+                          Strings.images['injection']!,
+                          height: 24.0,
+                          width: 24.0,
+                          colorFilter: const ColorFilter.mode(
+                              MyColors.onPrimary, BlendMode.srcIn),
+                        ),
                       ),
                       const SizedBox(
                         width: 15.0,
@@ -86,11 +92,17 @@ class _ReminderPageState extends State<ReminderPage> {
                       DropDownTile(
                         title: Strings.dropDownLabels[1],
                         subTitle: 'Tablet',
-                        imageData: Strings.images['eye']!,
                         items: const [
                           "Tablet",
                           "mg",
                         ],
+                        child: SvgPicture.asset(
+                          Strings.images['eye']!,
+                          height: 24.0,
+                          width: 24.0,
+                          colorFilter: const ColorFilter.mode(
+                              MyColors.onPrimary, BlendMode.srcIn),
+                        ),
                       ),
                     ],
                   ),
@@ -100,7 +112,6 @@ class _ReminderPageState extends State<ReminderPage> {
                   DropDownTile(
                     title: Strings.dropDownLabels[2],
                     subTitle: 'Before eat',
-                    imageData: Strings.images['hand']!,
                     items: const [
                       "Before breakfast",
                       "After breakfast",
@@ -109,6 +120,13 @@ class _ReminderPageState extends State<ReminderPage> {
                       "Before dinner",
                       "After dinner",
                     ],
+                    child: SvgPicture.asset(
+                      Strings.images['hand']!,
+                      height: 24.0,
+                      width: 24.0,
+                      colorFilter: const ColorFilter.mode(
+                          MyColors.onPrimary, BlendMode.srcIn),
+                    ),
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -121,8 +139,14 @@ class _ReminderPageState extends State<ReminderPage> {
                         title: Strings.dropDownLabels[3],
                         subTitle:
                             "${DateFormat("MMM").format(Functions.dateTime)}, ${widget.day}",
-                        imageData: Strings.images['calender']!,
                         items: items,
+                        child: SvgPicture.asset(
+                          Strings.images['calender']!,
+                          height: 24.0,
+                          width: 24.0,
+                          colorFilter: const ColorFilter.mode(
+                              MyColors.onPrimary, BlendMode.srcIn),
+                        ),
                       ),
                       const SizedBox(
                         width: 15.0,
@@ -131,8 +155,14 @@ class _ReminderPageState extends State<ReminderPage> {
                         title: Strings.dropDownLabels[4],
                         subTitle:
                             "${DateFormat("MMM").format(Functions.dateTime)}, ${widget.day}",
-                        imageData: Strings.images['calender']!,
                         items: items,
+                        child: SvgPicture.asset(
+                          Strings.images['calender']!,
+                          height: 24.0,
+                          width: 24.0,
+                          colorFilter: const ColorFilter.mode(
+                              MyColors.onPrimary, BlendMode.srcIn),
+                        ),
                       ),
                     ],
                   ),
@@ -144,24 +174,11 @@ class _ReminderPageState extends State<ReminderPage> {
                     children: [
                       HeaderText(title: Strings.labels['sc3_header']!),
                       Transform.scale(
-                        scale: 1.4,
-                        child: Switch(
-                            activeColor: Colors.white,
-                            activeTrackColor: Colors.lightGreen,
-                            thumbIcon: MaterialStateProperty.all(Icon(
-                              Icons.notifications,
-                              color: _switchValue
-                                  ? Colors.lightGreen
-                                  : MyColors.onPrimary,
-                            )),
-                            inactiveThumbColor: MyColors.onCardColor1,
-                            inactiveTrackColor: MyColors.onPrimary,
-                            value: _switchValue,
-                            onChanged: (bool value) {
-                              setState(() {
-                                _switchValue = value;
-                              });
-                            }),
+                        scale: 1.0,
+                        child: SwitchWithImage(
+                          svg: Strings.images['notification']!,
+                          isActive: _switchValue,
+                        ),
                       ),
                     ],
                   ),
@@ -188,7 +205,9 @@ class _ReminderPageState extends State<ReminderPage> {
                     title: Strings.labels['save']!,
                     onPressed: () {
                       Functions.showSnackBar(
-                          context, Strings.labels['reminder']!);
+                        context: context,
+                        title: Strings.labels['reminder']!,
+                      );
                       Navigator.pop(context);
                     },
                   ),

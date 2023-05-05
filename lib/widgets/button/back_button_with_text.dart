@@ -19,14 +19,17 @@ class ButtonWithText extends StatelessWidget {
             child: Icon(
               Icons.arrow_back_ios,
               color: color,
-              size: 14.0,
+              size: 16.0,
             ),
           ),
           SizedBox(
-            width: 34.0,
+            width: 45.0,
             child: Text(
               title,
-              style: TextStyle(color: color),
+              style: TextStyle(
+                color: color,
+                fontSize: 16.0,
+              ),
             ),
           ),
         ],

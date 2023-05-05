@@ -21,12 +21,12 @@ class CheckBoxTile extends StatelessWidget {
         onTap: () => updateIndex(index),
         child: Container(
           decoration: BoxDecoration(
-              color: isSelected(index) ? MyColors.onSurface : MyColors.primary,
-              borderRadius: BorderRadius.circular(20.0),
-              border: Border.all(
-                color:
-                    isSelected(index) ? MyColors.onPrimary : MyColors.primary,
-              )),
+            color: isSelected(index) ? MyColors.onSurface : MyColors.primary,
+            borderRadius: BorderRadius.circular(20.0),
+            border: Border.all(
+              color: isSelected(index) ? MyColors.onPrimary : MyColors.primary,
+            ),
+          ),
           width: 70.0,
           height: 80.0,
           padding: const EdgeInsets.all(10.0),
@@ -49,14 +49,23 @@ class CheckBoxTile extends StatelessWidget {
                   color: isSelected(index)
                       ? MyColors.onPrimary
                       : MyColors.onSurface,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: MyColors.textPrimary.withOpacity(0.05),
+                      blurRadius: 5.0,
+                      spreadRadius: 5.0,
+                      offset: const Offset(0.0, 3.0),
+                    ),
+                  ],
                 ),
                 height: 25.0,
                 width: 25.0,
                 alignment: Alignment.center,
                 child: Icon(
                   Icons.check,
-                  color:
-                      isSelected(index) ? MyColors.onSurface : MyColors.primary,
+                  color: isSelected(index)
+                      ? MyColors.onSurface
+                      : MyColors.onPrimary.withOpacity(0.3),
                   size: 18.0,
                 ),
               ),

@@ -1,24 +1,50 @@
 import 'package:medicine_app/utils/exports.dart';
 
 class ElevatedButtonFullWidth extends StatelessWidget {
-  const ElevatedButtonFullWidth({Key? key, required this.title, this.onPressed})
-      : super(key: key);
+  const ElevatedButtonFullWidth({
+    Key? key,
+    required this.title,
+    this.onPressed,
+    this.height = 50.0,
+    this.backgroundColor,
+    this.overlayColor,
+    this.foregroundColor,
+    this.shadowColor,
+    this.boxShadow,
+  }) : super(key: key);
   final String title;
+  final double? height;
+  final Color? backgroundColor;
+  final Color? overlayColor;
+  final Color? foregroundColor;
+  final Color? shadowColor;
+  final List<BoxShadow>? boxShadow;
   final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: Constants.deviceWidth,
-      height: 50.0,
+      decoration: BoxDecoration(
+        boxShadow: boxShadow ??
+            <BoxShadow>[
+              BoxShadow(
+                color: shadowColor ?? MyColors.textPrimary.withOpacity(0.2),
+                blurRadius: 15.0,
+                spreadRadius: 1.0,
+                offset: const Offset(0.0, 5.0),
+              ),
+            ],
+      ),
+      height: height,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(
-            MyColors.onPrimary,
+            backgroundColor ?? MyColors.onPrimary,
           ),
           overlayColor: MaterialStateProperty.all<Color>(
-            MyColors.onCardColor2,
+            overlayColor ?? MyColors.onCardColor2,
           ),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
@@ -28,7 +54,7 @@ class ElevatedButtonFullWidth extends StatelessWidget {
         ),
         child: Text(
           title,
-          style: const TextStyle(color: MyColors.onSurface),
+          style: TextStyle(color: foregroundColor ?? MyColors.onSurface),
         ),
       ),
     );

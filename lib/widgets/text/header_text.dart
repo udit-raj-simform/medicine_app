@@ -12,7 +12,7 @@ class HeaderText extends StatelessWidget {
     return Text(
       title,
       style: TextStyle(
-        fontWeight: FontWeight.bold,
+        // fontWeight: FontWeight.bold,
         fontSize: 25.0,
         color: color,
       ),

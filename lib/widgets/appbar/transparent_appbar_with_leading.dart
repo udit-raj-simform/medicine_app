@@ -13,7 +13,7 @@ class TransParentAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0.0,
       shadowColor: Colors.transparent,
       surfaceTintColor: Colors.transparent,
-      leadingWidth: 100.0,
+      leadingWidth: 110.0,
       leading: ButtonWithText(
         title: leadingTitle,
         color: color,

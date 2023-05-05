@@ -55,6 +55,9 @@ class _NotificationTileState extends State<NotificationTile> {
                                 color: MyColors.darkBackground,
                               ),
                             ),
+                            const SizedBox(
+                              height: 5.0,
+                            ),
                             Text(
                               Strings.labels['n_tile_subtitle_1']!,
                               style: const TextStyle(
@@ -75,6 +78,9 @@ class _NotificationTileState extends State<NotificationTile> {
                         colorFilter: const ColorFilter.mode(
                             MyColors.onPrimary, BlendMode.srcIn),
                       ),
+                      const SizedBox(
+                        width: 5.0,
+                      ),
                       GestureDetector(
                         onTap: () {
                           setState(() {
@@ -88,7 +94,7 @@ class _NotificationTileState extends State<NotificationTile> {
                             borderRadius: BorderRadius.circular(20.0),
                           ),
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 5.0),
+                              horizontal: 12.0, vertical: 5.0),
                           margin: const EdgeInsets.only(right: 20.0),
                           child: Text(
                             Strings.variables['n_count']!.toString(),
@@ -109,10 +115,15 @@ class _NotificationTileState extends State<NotificationTile> {
                       const SizedBox(
                         width: 20.0,
                       ),
-                      Icon(
-                        Icons.telegram_sharp,
-                        color: Colors.redAccent.withOpacity(0.7),
-                        size: 40.0,
+                      ClipOval(
+                        child: Container(
+                          color: MyColors.cardColor2,
+                          child: Image.asset(
+                            Strings.images['blood']!,
+                            height: 35.0,
+                            width: 35.0,
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         width: 18.0,
@@ -125,8 +136,8 @@ class _NotificationTileState extends State<NotificationTile> {
                           Text(
                             Strings.labels['n_tile_title_2']!,
                             style: const TextStyle(
-                              color: MyColors.onSurface,
-                            ),
+                                color: MyColors.onSurface,
+                                fontWeight: FontWeight.w500),
                           ),
                           Text(
                             Strings.labels['n_tile_subtitle_2']!,

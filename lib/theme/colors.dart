@@ -13,6 +13,8 @@ class MyColors {
   static const Color onSurface = Color(0xffFFFFFF);
   static const Color secondary = Color(0xffF0F1FC);
   static const Color onSecondary = Color(0xffC5C1FB);
+  
+  static const Color switchActiveColor = Color(0xff99D14D);
 
   static const Color cardColor1 = Color(0xffC6C9FF);
   static const Color cardColor2 = Color(0xffFFC9CD);

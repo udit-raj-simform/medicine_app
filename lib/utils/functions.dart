@@ -7,9 +7,8 @@ mixin Functions {
 
   static List<DateTime> dateRange = List.generate(
       32,
-          (index) =>
-          DateTime(dateTime.year, dateTime.month, dateTime.day + index,
-              dateTime.hour, dateTime.minute, dateTime.second));
+      (index) => DateTime(dateTime.year, dateTime.month, dateTime.day + index,
+          dateTime.hour, dateTime.minute, dateTime.second));
 
   static List<String> weekDays = <String>[
     "Mon",
@@ -65,20 +64,24 @@ mixin Functions {
   int activities = 0;
 
   Map<DateTime, Map<String, dynamic>> mapOfActivities =
-  <DateTime, Map<String, dynamic>>{};
-
+      <DateTime, Map<String, dynamic>>{};
 
   //! Other Functions
   // Snack bar
-  static showSnackBar(BuildContext context, String title) {
+  static showSnackBar(
+      {required BuildContext context,
+      required String title,
+      String? actionLabel}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        behavior: SnackBarBehavior.floating,
+        showCloseIcon: true,
         content: Text(
           title,
           style: const TextStyle(fontSize: 21.0),
         ),
         action: SnackBarAction(
-          label: 'Update',
+          label: actionLabel ?? 'Update',
           onPressed: () {
             // debugPrint(widget.day);
             // Navigator.push(
@@ -90,8 +93,7 @@ mixin Functions {
             // );
           },
         ),
-        backgroundColor:
-        MyColors.darkBackground.withOpacity(0.7),
+        backgroundColor: MyColors.darkBackground.withOpacity(0.7),
       ),
     );
   }

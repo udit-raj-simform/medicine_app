@@ -5,12 +5,12 @@ class DropDownTile extends StatefulWidget {
       {Key? key,
       required this.title,
       required this.subTitle,
-      required this.imageData,
+      required this.child,
       required this.items})
       : super(key: key);
   final String title;
   final String subTitle;
-  final String imageData;
+  final Widget child;
   final List? items;
 
   @override
@@ -44,13 +44,8 @@ class _DropDownTileState extends State<DropDownTile> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 15, right: 5),
-              child: Image.asset(
-                widget.imageData,
-                height: 24.0,
-                width: 24.0,
-              ),
-            ),
+                padding: const EdgeInsets.only(left: 15, right: 5),
+                child: widget.child),
             VerticalDivider(
               color: MyColors.textSub.withOpacity(0.5),
               thickness: 1.0,
@@ -66,6 +61,10 @@ class _DropDownTileState extends State<DropDownTile> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   labelText: widget.title,
+                  labelStyle: const TextStyle(
+                    color: Colors.black45,
+                    fontSize: 18.0,
+                  ),
                 ),
                 icon: const Icon(
                   Icons.keyboard_arrow_down_outlined,
