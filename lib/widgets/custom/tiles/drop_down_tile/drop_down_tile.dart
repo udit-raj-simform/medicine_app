@@ -20,9 +20,30 @@ class DropDownTile extends StatefulWidget {
 class _DropDownTileState extends State<DropDownTile> {
   String? selectedValue;
 
+  late GlobalKey _dropdownButtonKey;
+
+  void openDropdown() {
+    late GestureDetector detector;
+    void searchForGestureDetector(BuildContext element) {
+      element.visitChildElements((element) {
+        if (element.widget != null && element.widget is GestureDetector) {
+          detector = element.widget as GestureDetector;
+          return;
+        } else {
+          searchForGestureDetector(element);
+        }
+        return;
+      });
+    }
+
+    searchForGestureDetector(_dropdownButtonKey.currentContext!);
+
+    detector.onTap!();
+  }
+
   @override
   void initState() {
-    // selectedValue = widget.items![0];
+    _dropdownButtonKey = GlobalKey();
     super.initState();
   }
 
@@ -57,6 +78,7 @@ class _DropDownTileState extends State<DropDownTile> {
             ),
             Expanded(
               child: DropdownButtonFormField(
+                key: _dropdownButtonKey,
                 isExpanded: true,
                 decoration: InputDecoration(
                   border: InputBorder.none,
@@ -66,10 +88,7 @@ class _DropDownTileState extends State<DropDownTile> {
                     fontSize: 18.0,
                   ),
                 ),
-                icon: const Icon(
-                  Icons.keyboard_arrow_down_outlined,
-                  color: MyColors.textSub,
-                ),
+                icon: const SizedBox(),
                 hint: Text(
                   widget.subTitle,
                   style: const TextStyle(color: MyColors.textPrimary),
@@ -91,6 +110,13 @@ class _DropDownTileState extends State<DropDownTile> {
                     selectedValue = value.toString();
                   });
                 },
+              ),
+            ),
+            GestureDetector(
+              onTap: () => openDropdown(),
+              child: const Icon(
+                Icons.keyboard_arrow_down_outlined,
+                color: MyColors.textSub,
               ),
             ),
             const SizedBox(
